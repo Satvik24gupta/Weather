@@ -1,0 +1,44 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.Container{
+  border: 2px solid black;
+  height: 80vh;
+}
+
+.flex{
+  display: flex;
+}
+
+.searchContainer{
+  /* border: 2px solid black; */
+  padding: 8px;
+  margin: 10px;
+  justify-content: center;
+}
+
+.searchBar{
+  /* border: 2px solid black; */
+  width: 80%;
+}
+
+.searchBar input{
+  width: 100%;
+}
+
+.SearchBtn button{
+  cursor: pointer;
+}
+
+.tempValue{
+  font-size: 70px;
+  font-weight: bold;
+}
+
+.extra-details ul{
+  list-style: none;
+}
