@@ -39,9 +39,10 @@ function App() {
       setMinimum(toCelcius(data.main.temp_min))
       setMaximum(toCelcius(data.main.temp_max))
     })
+    .catch(error=>console.error('Error:', error))
 
     console.log("first")
-    fetch(`http://localhost:4444/history`, {
+    fetch(`${import.meta.env.VITE_API_Base_Url}history`, {
       method:'POST',
       body:JSON.stringify({
         "user":user,
@@ -63,7 +64,7 @@ function App() {
     .then(data=>{
       console.log(data)
     })
-
+    .catch(error=>console.error('Error:', error))
   }
   
   useEffect(()=>{
@@ -81,13 +82,16 @@ function App() {
         setMinimum(toCelcius(data.main.temp_min))
         setMaximum(toCelcius(data.main.temp_max))
       })
+      .catch(error=>console.error('Error:', error))
 
-      fetch(`http://localhost:4444/history?email=${user}`)
+      fetch(`${import.meta.env.VITE_API_Base_Url}history?email=${user}`)
       .then(response=>response.json())
       .then(data=>{
         console.log(data)
         setHistoryArray(data.data)
       })
+      .catch(error=>console.error('Error:', error))
+      
 
   }, [])
 
@@ -122,10 +126,10 @@ function App() {
             </div>
         </div>
 
-          <h2 style={{position:"absolute"}}>previous Search Record</h2>     
+        {historyArray?.length && <h2 style={{position:"absolute"}}>Previous Search Record</h2>}
         <div className='history_container flex'>      
           {
-            historyArray.map((element, index)=>{
+            historyArray?.map((element, index)=>{
               return(
                 <>
                 <div className='history border'>

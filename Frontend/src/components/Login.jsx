@@ -24,7 +24,7 @@ const Signup = () => {
   
   const handleSubmit = (e)=>{
     e.preventDefault()
-    fetch("http://localhost:4444/login", {
+    fetch(`${import.meta.env.VITE_API_Base_Url}login`, {
       method:'POST',
       body:JSON.stringify(formData),
       headers:{
@@ -40,6 +40,7 @@ const Signup = () => {
         navigate('/')
       }
     })
+    .catch(error=>console.error('Error:', error))
   }
 
   return (
