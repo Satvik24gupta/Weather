@@ -6,7 +6,7 @@
 }
 
 .Container{
-  border: 2px solid black;
+  /* border: 2px solid black; */
   height: 80vh;
 }
 
@@ -41,4 +41,22 @@
 
 .extra-details ul{
   list-style: none;
+}
+
+.border{
+  border: 2px solid black;
+}
+
+.history_container{
+  height: 30vh;
+  margin-top: 80px;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 20px;
+}
+
+.history{
+  /* height: 30vh; */
+  min-width: 15vw;
+  padding-top: 20px;
 }
