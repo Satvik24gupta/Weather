@@ -2,6 +2,9 @@ import { useState } from 'react'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
+
 
 function App() {
   const [tempValue, setTempValue] = useState(500);
@@ -11,8 +14,9 @@ function App() {
   const [maximum, setMaximum] = useState(125)
   const [inputTerm, setInputTerm] = useState('')
 
-  const WeatherAPIKEY = import.meta.env.VITE_Weather_API_KEY;
 
+  const WeatherAPIKEY = import.meta.env.VITE_Weather_API_KEY;
+  const user = useSelector((state)=>state.user.value)
 
   const handleChange = (e)=>{
     setInputTerm(e.target.value)
@@ -21,6 +25,7 @@ function App() {
   const toCelcius = (kelvin)=>{
     return Math.round(kelvin - 273.15);
   }
+  const navigate = useNavigate();
 
   const handleSearch = ()=>{
     setLocation(inputTerm)
@@ -35,6 +40,12 @@ function App() {
   }
   
   useEffect(()=>{
+    // if(!localStorage.getItem('user')){
+    //   navigate('/login')
+    // }
+    if(!user){
+        navigate('/login')
+    }
       fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${WeatherAPIKEY}`)
       .then(response => response.json())
       .then(data=>{

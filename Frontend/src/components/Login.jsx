@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router';
-Navigate
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, useNavigate } from 'react-router';
+import { setUser } from '../redux/slice/userSlice';
+
+
 // import axios from 'axios';
 
 const Signup = () => {
@@ -9,6 +12,9 @@ const Signup = () => {
     email:"",
     password:""
   })
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleChange = (e)=>{
     const name = e.target.name
@@ -28,6 +34,11 @@ const Signup = () => {
     .then(response=>response.json())
     .then(data=>{
       console.log(data)
+      if(data.success==true){
+        // localStorage.setItem('user', formData.email)
+        dispatch(setUser(formData.email))
+        navigate('/')
+      }
     })
   }
 
@@ -55,6 +66,7 @@ const Signup = () => {
         />
         <button type="submit" style={styles.button}>Login</button>
       </form>
+      <p>New User? <span style={{cursor:"pointer", textDecoration:"underline"}} onClick={()=>navigate('/signup')}>Sign up</span> </p>
     </div>
   );
 };
