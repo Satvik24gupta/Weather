@@ -30,41 +30,54 @@ function App() {
   const navigate = useNavigate();
 
   const handleSearch = ()=>{
-    setLocation(inputTerm)
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${inputTerm}&appid=${WeatherAPIKEY}`)
     .then(response => response.json())
     .then(data=>{
-      setTempValue(toCelcius(data.main.temp))
-      setHumidity(data.main.humidity)
-      setMinimum(toCelcius(data.main.temp_min))
-      setMaximum(toCelcius(data.main.temp_max))
-    })
-    .catch(error=>console.error('Error:', error))
-
-    console.log("first")
-    fetch(`${import.meta.env.VITE_API_Base_Url}history`, {
-      method:'POST',
-      body:JSON.stringify({
-        "user":user,
-        "data":[
-            {
+      if(data.cod == 200){
+        console.log(data)
+        setLocation(inputTerm)
+        setTempValue(toCelcius(data.main.temp))
+        setHumidity(data.main.humidity)
+        setMinimum(toCelcius(data.main.temp_min))
+        setMaximum(toCelcius(data.main.temp_max))
+        console.log("ab ham post request bhejenge")
+        fetch(`${import.meta.env.VITE_API_Base_Url}history`, {
+          method:'POST',
+          body:JSON.stringify({
+            "user":user,
+            "data":[
+              {
                 "location":inputTerm,
                 "temp":tempValue,
                 "minimum":minimum,
                 "maximum":maximum,
                 "humidity":humidity
-            }
-        ]
-      }),
-      headers:{
-        'Content-Type': 'application/json'
+              }
+            ]
+          }),
+          headers:{
+            'Content-Type': 'application/json'
+          }
+        })   
+        .then(response=>response.json())
+        .then(data=>{
+          console.log(data)
+          fetch(`${import.meta.env.VITE_API_Base_Url}history?email=${user}`)
+          .then(response=>response.json())
+          .then(data=>{
+            console.log(data)
+            setHistoryArray(data.data)
+          })
+          .catch(error=>console.error('Error:', error))
+        })
+        .catch(error=>console.error('Error:', error))
+        
+
       }
-    })   
-    .then(response=>response.json())
-    .then(data=>{
-      console.log(data)
     })
     .catch(error=>console.error('Error:', error))
+
+    console.log("first")
   }
   
   useEffect(()=>{
